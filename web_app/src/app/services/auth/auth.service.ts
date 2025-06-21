@@ -1,27 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment'; // Import environment
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http:HttpClient) {}
+  private baseUrl = environment.apiUrl;  // Use environment API URL
 
-  signup(data: any) :Observable<any>{
-    return this.http.post('http://localhost:8080/auth/signup', data);
-   }
+  constructor(private http: HttpClient) {}
 
-   signin(data:any) : Observable<any> {
-    
-    return this.http.post('http://localhost:8080/auth/login', data);
-   }
-   
-   getProfile(): Observable<any> {
+  signup(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/signup`, data);
+  }
+
+  signin(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/login`, data);
+  }
+
+  getProfile(): Observable<any> {
     let headers = {
       'Authorization': "Bearer " + localStorage.getItem('token')
-    }
-    return this.http.get('http://localhost:8080/auth/dashboard', {headers: headers})
-   }
+    };
+    return this.http.get(`${this.baseUrl}/auth/dashboard`, { headers: headers });
+  }
 }
