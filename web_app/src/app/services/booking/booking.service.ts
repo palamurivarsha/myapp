@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs'
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';  // Correct relative path
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService {
 
-  constructor(private http:HttpClient) { }
+  private baseUrl = environment.apiUrl;  // Use env variable
 
-  book(data: any) :Observable<any>{
-    return this.http.post('http://localhost:8080/book/cart', data);
+  constructor(private http: HttpClient) { }
+
+  book(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/book/cart`, data);
   }
- }
+}
